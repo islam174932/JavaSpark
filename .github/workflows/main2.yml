@@ -18,8 +18,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          choco install chromedriver --version=<latest version>
+          choco install chromedriver --version=latest
           choco install googlechrome
+          choco install geckodriver --version=latest
+          choco install firefox
+          choco install msedgedriver --version=latest
+          choco install microsoft-edge
+
+      - name: Set environment variables
+        run: echo "CHROMEDRIVER_PATH=$(where chromedriver)" >> $GITHUB_ENV
+      
 
       - name: Set up Maven
         uses: actions/setup-java@v2
@@ -30,6 +38,9 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
+
+      - name: Run tests
+        run: mvn test
 
       - name: Run tests
         run: mvn test
